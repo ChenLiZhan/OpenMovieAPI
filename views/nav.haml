@@ -1,0 +1,8 @@
+#header_wrapper
+  %nav{:id => 'menu'}
+    #js_navigation= render_navigation(:expand_all => true)
+
+/ :javascript
+/   $(document).ready(function(){
+/     $("#js_navigation ul").superfish();
+/   });

@@ -1,0 +1,18 @@
+!!! 5
+%html
+  %head
+    %title MovieCrawler information
+    %link{href: '/style.css', media: 'screen, projection', rel: 'stylesheet'}
+    %script{:src => "/javascripts/jquery.js", :type => "text/javascript"}
+    %script{:src => "/javascripts/jquery.superfish.js", :type => "text/javascript"}
+    %script{:src => "/javascripts/application.js", :type => "text/javascript"}
+  %body
+    %img.bg-img{:src => "/movie.jpg"}
+    #container
+      %header
+        = haml :nav
+      %section
+        = styled_flash
+        = yield
+      .footer
+        = haml :footer

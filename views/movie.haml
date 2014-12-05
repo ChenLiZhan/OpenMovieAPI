@@ -1,0 +1,30 @@
+.container
+  %form{:action => '/movie', :method => 'post', :id => 'check-form'}
+    %dl{class: 'user-input'}
+      %dt
+        %label{:for => 'Movies'} Movies
+      %dd
+        %input{:type => 'text', :name => 'movie'}
+    .float-clear
+      %input{:type => 'submit', :value => 'submit', :id => 'check-submit', :class => 'submit'}
+  %form{:action => "/movie/#{@id}", :method => 'post', :id => 'delete-form'}
+    - if @action == :update
+      %input{:type => 'submit', :name => '_method', :value => 'delete', :class => 'delete'}
+  - if @results
+    %h1 Results
+    %table{class: 'center'}
+      %tbody
+        %tr
+          %th Name
+          %th Schedule
+          %th Content
+          %tr
+            %td{width: '300'}
+              = @results['name']
+            %td{width: '300'}
+              = @results['schedule']
+            %td{width: '300'}
+              = @results['content']
+
+  - else
+    %p "Enter search criteria above"

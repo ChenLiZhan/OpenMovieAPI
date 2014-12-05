@@ -1,0 +1,275 @@
+/*HTML tag*/
+
+html
+{
+  height: 100%;
+}
+
+body {
+  /*background: url(movie.jpg) center no-repeat ;*/
+
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 12pt;
+  font-weight: 400;
+  color: #000000;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 50px;
+}
+
+ol, ul {
+  margin-top: 0;
+  padding: 0;
+  list-style: none;
+}
+
+p {
+  margin-top: 0;  
+  line-height: 180%;
+}
+
+a
+{
+  color: #0000FF;
+}
+
+a.lightlink {
+  color: #DDDDDD;
+}
+
+table
+{
+  border-collapse: collapse;
+  text-align: center;
+  background: #1E3347;
+  border: 1px solid #4d8bb2;
+    
+}
+
+table.center {
+  margin-left:auto;
+  margin-right:auto;
+  /*background-color: blue;*/
+}
+
+th, td
+{
+  text-align: center;
+  background: #1E3347;
+  border: 1px solid #4d8bb2;
+}
+
+section {
+  background: rgba(20, 20, 20, 0.7);
+  /*margin-bottom: 215px;*/
+  min-height: 700px;
+}
+
+div.flash {
+  text-align: center;
+  color: #FFFFFF;
+  font-weight: bold;
+  background: #FF0000;
+}
+
+/*Header*/
+
+#header_wrapper {
+  overflow: hidden;
+  /*padding: 5em 0em;*/
+  /*background: #8DCB89 url(movie.jpg) no-repeat center;*/
+  background-size: cover;
+
+}
+
+/*Menu*/
+#menu #js_navigation ul
+{
+  height:50px;
+  text-align: center;
+}
+
+#menu #js_navigation li
+{
+  display: inline-block;
+}
+
+#menu #js_navigation li a, #menu #js_navigation li span
+{
+  display: inline-block;
+  margin-left: 0.50em;
+  padding: 1em 1.5em;
+  letter-spacing: 0.20em;
+  text-decoration: none;
+  font-size: 0.90em;
+  font-weight: 600;
+  text-transform: uppercase;
+  outline: 0;
+  color: #FFF;
+}
+
+#menu #js_navigation a:hover, #menu #js_navigation a:active
+{
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+#menu #js_navigation .current_page_item a
+{
+  background: #ff6816;
+  border-radius: 8px;
+  color: #FFF;
+}
+
+/*Title*/
+
+.title
+{
+  margin-bottom: 3em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 1.1em;
+  color: #6F6F6F;
+}
+
+.title h2
+{
+  font-size: 2.8em;
+}
+
+.byline
+{
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 1.1em;
+  color: #6F6F6F;
+}
+
+.container
+{
+  text-align: center;
+  margin: 0px auto;
+  width: 800px;
+  overflow: hidden;
+  padding: 5em 0em;
+  color: rgba(0,0,0,0.5);
+}
+
+
+/*********************************************************************************/
+/* Form Style                                                                    */
+/*********************************************************************************/
+form label
+{
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+form .submit
+{
+  /*margin-top: 2em;*/
+  background: #8DCB89;
+  border-radius: 3px;
+  /*line-height: 1.5em;*/
+  /*font-size: 1.3em;*/
+}
+
+.footer {
+  overflow: hidden;
+  padding: 5em 0em;
+  /*background: url(movie.jpg) center;*/
+  border-top: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+  color: white;
+}
+
+.user-input {
+  float: left;
+  width: 50%;
+}
+
+.user-output {
+  float: left;
+}
+
+#js_navigation > ul ul {
+    position: absolute;
+    /* opacity: 0; */
+    display: none;
+}
+
+#js_navigation > ul {
+    padding: 20px 0;
+}
+
+#js_navigation > ul li:hover {
+    /* background: red; */
+    cursor: pointer;
+}
+
+#js_navigation > ul li:hover ul {
+    /* opacity: 1; */
+    display: block;
+    /* top: 20px; */
+    /* left: 0; */
+}
+
+#js_navigation > ul li ul > li:hover {
+    /* opacity:  1; */
+    display: inline-block;
+}
+
+#js_navigation > ul li ul > li {
+    margin: 0 5px 0 0;
+    padding: 5px;
+}
+
+.bg-img {
+  position: fixed;
+  min-height: 100%;
+  width: 100%;
+  -webkit-filter: blur(10px);
+}
+
+#container {
+  position: relative;
+}
+
+
+
+#js_navigation > ul > li:hover {
+    border: solid white;
+}
+
+#js_navigation > ul > li {
+    border: solid transparent;
+}
+
+.footer {
+  /*position: fixed;*/
+  /*bottom: 0;*/
+  width: 100%;
+}
+
+.copyright {
+  margin: 10px auto;
+}
+
+.container {
+  color: white;
+  font-size: 30px;
+  
+}
+
+.container p {
+  line-height: 1.4em;
+  /*color:black;*/
+}

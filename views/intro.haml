@@ -1,0 +1,21 @@
+.container
+  %table{class: 'center'}
+    %tbody
+      %tr
+        %th Title
+        %th Story
+        %th Date
+        %th Runtime
+        %th Trailer
+      -@intros['content'].each do |intro|
+        %tr
+          %td{width: '300'}
+            = intro['title']
+          %td{width: '300'}
+            = intro['story']
+          %td{width: '300'}
+            = intro['date']
+          %td{width: '300'}
+            = intro['runtime(minutes)']
+          %td{width: '300'}
+            = intro['trailer']

@@ -1,0 +1,12 @@
+.container
+  %table{class: 'center'}
+    %tbody
+      %tr
+        %th Rank
+        %th Name
+      -@boxoffices['content'].each_with_index do |movie, i|
+        %tr
+          %td{width: '300'}
+            = i+1
+          %td{width: '300'}
+            = movie.values[0]
