@@ -11,8 +11,6 @@ gem 'activerecord'
 gem 'sinatra-activerecord'
 
 gem 'haml'
-gem 'sinatra-simple-navigation'
-gem 'sinatra-flash'
 
 group :development do
   gem 'sqlite3'
