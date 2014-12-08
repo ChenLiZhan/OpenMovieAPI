@@ -2,7 +2,6 @@ require 'sinatra/base'
 require 'movie_crawler'
 require 'json'
 require 'yaml'
-require 'haml'
 require_relative 'model/movie'
 require_relative 'model/theater'
 
@@ -86,18 +85,7 @@ class MovieApp < Sinatra::Base
       puts e.message
       halt 400
     end
-    # movie = Movie.find_by(moviename: params[:name])
-    # if movie
-    #   # return "find"+params[:name]
-    #   # redirect "/api/v2/moviechecked/#{params[:name]}"
-    #   movie.movieinfo
-    # else
-    #   movie = Movie.new
-    #   movie.moviename = params[:name]
-    #   movie.movieinfo = get_movie_info(params[:name]).to_json
-    #   movie.save
-    #   movie.movieinfo
-    # end
+
     movie = Movie.find_by(moviename: req['movie'])
     if movie.nil?
       movie = Movie.new
@@ -151,7 +139,7 @@ class MovieApp < Sinatra::Base
     topsum(n).to_json
   end
 
-  get '/info/' do
-    halt 400
-  end
+  # get '/info/' do
+  #   halt 400
+  # end
 end
