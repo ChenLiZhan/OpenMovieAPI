@@ -1,6 +1,7 @@
 MovieCrawler Web Application
 =============================
-[ ![Codeship Status for ChenLiZhan/MovieCrawler](https://codeship.com/projects/b23a7d90-4a4e-0132-e0ce-3a47b25aadbc/status)](https://codeship.com/projects/46254)
+[ ![Codeship Status for ChenLiZhan/OpenMovieAPI](https://codeship.com/projects/3c7b6500-60af-0132-ae4e-02eb9615503b/status)](https://codeship.com/projects/51672)
+
 ## Our Heroku web service
 Take the [link](https://movie-crawler.herokuapp.com/) to use our service.
 
