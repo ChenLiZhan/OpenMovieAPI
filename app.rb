@@ -116,7 +116,7 @@ class MovieApp < Sinatra::Base
       @data = {
         'content_type' => @data.content_type,
         'category' => @data.category,
-        'info' => JSON.parse(@data.content)
+        'content' => JSON.parse(@data.content)
       }
       @data.to_json
     else
