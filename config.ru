@@ -1,2 +1,2 @@
 require './app.rb'
-run MovieApp
+run MovieAppDynamo

@@ -5,32 +5,34 @@ require 'yaml'
 require_relative 'model/movie'
 require_relative 'model/theater'
 
-class MovieApp < Sinatra::Base
+class MovieAppDynamo < Sinatra::Base
   set :views, Proc.new { File.join(root, "views") }
   # enable :sessions
   use Rack::Session::Pool
-  use Rack::MethodOverride
+  use Rack::MethodOverrideg
 
+  # - requires config:
+  # - create ENV vars AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_REGION
   configure :production, :development do
     enable :logging
   end
 
-  API_BASE_URI = 'http://localhost:4567'
-
   helpers do
     # RANK_LIST = { '1' => 'U.S.', '2' => 'Taiwan', '3' => 'DVD' }
 
+    # return one movie info
     def get_movie_info(moviename)
       # begin
-        # halt 404 if moviename == nil?
-        movie_crawled = {
-          'type' => 'movie_info',
-          'info' => []
-        }
-        movie_crawled['info'] = MovieCrawler.get_movie_info(moviename)
-        movie_crawled
+      # halt 404 if moviename == nil?
+      movie_crawled = {
+        'type' => 'movie_info',
+        'info' => []
+      }
+      movie_crawled['info'] = MovieCrawler.get_movie_info(moviename)
+      movie_crawled
     end
 
+    # return a theater info
     def get_ranks(category)
       halt 404 if category.to_i > 3
       ranks_after = {
@@ -43,6 +45,7 @@ class MovieApp < Sinatra::Base
       ranks_after
     end
 
+    # return a theater info
     def get_infos(category)
       halt 404 if category == nil?
       infos_after = {
@@ -55,6 +58,7 @@ class MovieApp < Sinatra::Base
       infos_after
     end
 
+    # get a multiple info.
     def topsum(n)
       us1 = YAML.load(MovieCrawler::us_weekend).reduce(&:merge)
       tp1 = YAML.load(MovieCrawler::taipei_weekend).reduce(&:merge)
@@ -66,9 +70,25 @@ class MovieApp < Sinatra::Base
         { k => [{us:us1[k] || "0" }, { tp:tp1[k] || "0" }, { dvd:dvd1[k] || "0"}] }
       end
     end
+
+    def new_movie(req)
+      movie = Movie.new
+      movie.moviename = req['moviename'].to_json
+      movie.movieinfo = get_movie_info(req['movieinfo']).to_json
+      movie
+    end
+
+    def new_theater(data)
+      theater = Theater.new
+      theater.content_type = data['content_type'].to_json
+      theater.category = data['category'].to_json
+      theater.content = data['content'].to_json
+      theater
+    end
+
   end
 
-  after { ActiveRecord::Base.connection.close }
+  # after { ActiveRecord::Base.connection.close }
 
   get '/' do
     'The API are working.'
@@ -86,15 +106,8 @@ class MovieApp < Sinatra::Base
       halt 400
     end
 
-    movie = Movie.find_by(moviename: req['movie'])
-    if movie.nil?
-      movie = Movie.new
-      movie.moviename = req['movie']
-      movie.movieinfo = get_movie_info(req['movie']).to_json
-      movie.save
-    end
-
-    redirect "/api/v2/moviechecked/#{movie.id}"
+    movie = new_movie(req)
+    redirect "/api/v2/moviechecked/#{movie.id}" if movie.save?
   end
 
   get '/api/v2/moviechecked/:id' do
@@ -111,8 +124,7 @@ class MovieApp < Sinatra::Base
 
   get '/api/v2/:type/:category.json' do
     content_type :json, charset: 'utf-8'
-
-    if @data = Theater.find_by(category: params[:category])
+    if @data = Theater.find(:all, :where => 'category = "#{params[:category]}"')
       @data = {
         'content_type' => @data.content_type,
         'category' => @data.category,
@@ -122,10 +134,7 @@ class MovieApp < Sinatra::Base
     else
       data = params[:type] == 'info' ? get_infos(params[:category]) : \
       get_ranks(params[:category])
-      theater = Theater.new
-      theater.content_type = data['content_type']
-      theater.category = data['category']
-      theater.content = data['content'].to_json
+      theater = new_theater(data)
       theater.save && data.to_json
     end
   end

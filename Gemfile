@@ -7,17 +7,7 @@ gem 'movie_crawler'
 gem 'json'
 gem 'httparty'
 
-gem 'activerecord'
-gem 'sinatra-activerecord'
-
-group :development do
-  gem 'sqlite3'
-  gem 'tux'
-end
-
-group :production do
-  gem 'pg'
-end
+gem 'aws-sdk'
 
 group :test do
   gem 'minitest'
