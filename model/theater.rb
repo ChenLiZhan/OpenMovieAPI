@@ -1,6 +1,16 @@
-require 'sinatra'
-require 'sinatra/activerecord'
-require_relative '../config/environments'
+require 'aws-sdk'
 
-class Theater < ActiveRecord::Base
+class Theater < AWS::Record::HashModel
+  string_attr :content_type
+  string_attr :category
+  string_attr :content
+  timestamps
+
+  def self.destroy(id)
+    find(id).delete
+  end
+
+  def self.delete_all
+    all.each { |r| r.delete }
+  end
 end
