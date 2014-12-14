@@ -9,8 +9,10 @@ class MovieAppDynamo < Sinatra::Base
   set :views, Proc.new { File.join(root, "views") }
   # enable :sessions
   use Rack::Session::Pool
-  use Rack::MethodOverride
+  use Rack::MethodOverrideg
 
+  # - requires config:
+  # - create ENV vars AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_REGION
   configure :production, :development do
     enable :logging
   end
@@ -21,13 +23,13 @@ class MovieAppDynamo < Sinatra::Base
     # return one movie info
     def get_movie_info(moviename)
       # begin
-        # halt 404 if moviename == nil?
-        movie_crawled = {
-          'type' => 'movie_info',
-          'info' => []
-        }
-        movie_crawled['info'] = MovieCrawler.get_movie_info(moviename)
-        movie_crawled
+      # halt 404 if moviename == nil?
+      movie_crawled = {
+        'type' => 'movie_info',
+        'info' => []
+      }
+      movie_crawled['info'] = MovieCrawler.get_movie_info(moviename)
+      movie_crawled
     end
 
     # return a theater info
@@ -76,11 +78,11 @@ class MovieAppDynamo < Sinatra::Base
       movie
     end
 
-    def new_theater(req)
+    def new_theater(data)
       theater = Theater.new
-      theater.content_type = req['content_type'].to_json
-      theater.category = req['category'].to_json
-      theater.content = req['content'].to_json
+      theater.content_type = data['content_type'].to_json
+      theater.category = data['category'].to_json
+      theater.content = data['content'].to_json
       theater
     end
 
@@ -104,17 +106,8 @@ class MovieAppDynamo < Sinatra::Base
       halt 400
     end
 
-    movie = Movie.find_by(moviename: req['movie'])
-    if movie.nil?
-
-      movie = new_movie(req)
-      # movie = Movie.new
-      # movie.moviename = req['movie']
-      # movie.movieinfo = get_movie_info(req['movie']).to_json
-      movie.save
-    end
-
-    redirect "/api/v2/moviechecked/#{movie.id}"
+    movie = new_movie(req)
+    redirect "/api/v2/moviechecked/#{movie.id}" if movie.save?
   end
 
   get '/api/v2/moviechecked/:id' do
@@ -131,8 +124,7 @@ class MovieAppDynamo < Sinatra::Base
 
   get '/api/v2/:type/:category.json' do
     content_type :json, charset: 'utf-8'
-
-    if @data = Theater.find_by(category: params[:category])
+    if @data = Theater.find(:all, :where => 'category = "#{params[:category]}"')
       @data = {
         'content_type' => @data.content_type,
         'category' => @data.category,
@@ -142,13 +134,7 @@ class MovieAppDynamo < Sinatra::Base
     else
       data = params[:type] == 'info' ? get_infos(params[:category]) : \
       get_ranks(params[:category])
-
-
       theater = new_theater(data)
-      # theater = Theater.new
-      # theater.content_type = data['content_type']
-      # theater.category = data['category']
-      # theater.content = data['content'].to_json
       theater.save && data.to_json
     end
   end
