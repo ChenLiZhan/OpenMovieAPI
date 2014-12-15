@@ -44,30 +44,40 @@ describe 'MovieAppDynamo debut' do
       get "/api/v2/rank/#{rand(1..3)}.json"
       last_response.must_be :ok?
       data = last_response.body
-      saved_theater = Theater.find(:all, :where => 'category = "rank_table"')
-      %w(1 2 3).must_include saved_theater.category
-      JSON.parse(data)['content'].must_equal JSON.parse(saved_theater.content)
+      Theater.find(:all).each do |theater|
+        theater.content_type == 'rank_table' && @saved_theater = theater
+      end
+      %w(1 2 3).must_include @saved_theater.category
+      JSON.parse(data)['content'].must_equal JSON.parse(@saved_theater.content)
     end
 
     it 'should return 404 for unknown category' do
       get "/api/v2/rank/#{rand(4..100)}.json"
       last_response.must_be :not_found?
-      Theater.find(:all, :where => 'category = "rank_table"').must_be_nil
+      Theater.find(:all).each do |theater|
+        theater.content_type == 'rank_table' && @empty_theater = theater
+      end
+      @empty_theater.must_be_nil
     end
 
     it 'should return ok and json format' do
       get "/api/v2/info/#{info_helper.sample}.json"
       last_response.must_be :ok?
       data = last_response.body
-      saved_theater = Theater.find(:all, :where => 'category = "info_list"')
-      info_helper.must_include saved_theater.category
-      JSON.parse(data)['content'].must_equal JSON.parse(saved_theater.content)
+      Theater.find(:all).each do |theater|
+        theater.content_type == 'info_list' && @saved_theater = theater
+      end
+      info_helper.must_include @saved_theater.category
+      JSON.parse(data)['content'].must_equal JSON.parse(@saved_theater.content)
     end
 
     it 'should return bad request if not specify category' do
       get '/api/v2/info/'
       last_response.must_be :not_found?
-      Theater.find(:all, :where => 'category = "info_list"').must_be_nil
+      Theater.find(:all).each do |theater|
+        theater.content_type == 'info_list' && @empty_theater = theater
+      end
+      @empty_theater.must_be_nil
     end
   end
 
