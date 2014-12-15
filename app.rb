@@ -9,7 +9,7 @@ class MovieAppDynamo < Sinatra::Base
   set :views, Proc.new { File.join(root, "views") }
   # enable :sessions
   use Rack::Session::Pool
-  use Rack::MethodOverrideg
+  use Rack::MethodOverride
 
   # - requires config:
   # - create ENV vars AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_REGION
