@@ -9,7 +9,7 @@ class MovieAppDynamo < Sinatra::Base
   set :views, Proc.new { File.join(root, "views") }
   # enable :sessions
   use Rack::Session::Pool
-  use Rack::MethodOverrideg
+  use Rack::MethodOverride
 
   # - requires config:
   # - create ENV vars AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_REGION
@@ -80,8 +80,8 @@ class MovieAppDynamo < Sinatra::Base
 
     def new_theater(data)
       theater = Theater.new
-      theater.content_type = data['content_type'].to_json
-      theater.category = data['category'].to_json
+      theater.content_type = data['content_type']
+      theater.category = data['category']
       theater.content = data['content'].to_json
       theater
     end
@@ -124,7 +124,10 @@ class MovieAppDynamo < Sinatra::Base
 
   get '/api/v2/:type/:category.json' do
     content_type :json, charset: 'utf-8'
-    if @data = Theater.find(:all, :where => 'category = "#{params[:category]}"')
+    Theater.find(:all).each do |theater|
+      theater.category == params[:category] && @data = theater
+    end
+    if !@data.nil?
       @data = {
         'content_type' => @data.content_type,
         'category' => @data.category,
