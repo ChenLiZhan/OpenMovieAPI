@@ -73,8 +73,8 @@ class MovieAppDynamo < Sinatra::Base
 
     def new_movie(req)
       movie = Movie.new
-      movie.moviename = req['moviename'].to_json
-      movie.movieinfo = get_movie_info(req['movieinfo']).to_json
+      movie.moviename = req['movie'].to_json
+      movie.movieinfo = get_movie_info(req['movie']).to_json
       movie
     end
 
@@ -107,7 +107,7 @@ class MovieAppDynamo < Sinatra::Base
     end
 
     movie = new_movie(req)
-    redirect "/api/v2/moviechecked/#{movie.id}" if movie.save?
+    redirect "/api/v2/moviechecked/#{movie.id}" if movie.save
   end
 
   get '/api/v2/moviechecked/:id' do
