@@ -127,7 +127,7 @@ class MovieAppDynamo < Sinatra::Base
     Theater.find(:all).each do |theater|
       theater.category == params[:category] && @data = theater
     end
-    if !@data.nil?
+    if @data.nil?
       @data = {
         'content_type' => @data.content_type,
         'category' => @data.category,
