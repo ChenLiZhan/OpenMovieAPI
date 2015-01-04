@@ -2,6 +2,8 @@ require 'sinatra/base'
 require 'movie_crawler'
 require 'json'
 require 'yaml'
+require 'httparty'
+
 require_relative 'model/movie'
 require_relative 'model/theater'
 
@@ -178,7 +180,4 @@ class MovieAppDynamo < Sinatra::Base
 
     status 200
   end
-  # get '/info/' do
-  #   halt 400
-  # end
 end
