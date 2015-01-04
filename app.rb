@@ -156,13 +156,21 @@ class MovieAppDynamo < Sinatra::Base
     begin
       sns_msg_type = request.env["HTTP_X_AMZ_SNS_MESSAGE_TYPE"]
       sns_note = JSON.parse request.body.read
-
       case sns_msg_type
       when 'SubscriptionConfirmation'
         sns_confirm_url = sns_note['SubscribeURL']
         sns_confirmation = HTTParty.get sns_confirm_url
       when 'Notification'
-        logger.info "SNS: #{sns_note['Message']}"
+        # save_message sns_note['Subject'], sns_note['Message']
+        param = {
+          movie: sns_note['Subject']
+        }
+        options = {
+          headers: { 'Content-Type' => 'application/json' },
+          body: param.to_json
+        }
+
+        result = HTTParty.post('https://serene-citadel-5567.herokuapp.com/movie', options)
       end
     rescue => e
       logger.error e
@@ -171,31 +179,5 @@ class MovieAppDynamo < Sinatra::Base
     end
 
     status 200
-    # begin
-    #   sns_msg_type = request.env["HTTP_X_AMZ_SNS_MESSAGE_TYPE"]
-    #   sns_note = JSON.parse request.body.read
-    #   case sns_msg_type
-    #   when 'SubscriptionConfirmation'
-    #     sns_confirm_url = sns_note['SubscribeURL']
-    #     sns_confirmation = HTTParty.get sns_confirm_url
-    #   when 'Notification'
-    #     # save_message sns_note['Subject'], sns_note['Message']
-    #     param = {
-    #       movie: sns_note['Subject']
-    #     }
-    #     options = {
-    #       headers: { 'Content-Type' => 'application/json' },
-    #       body: param.to_json
-    #     }
-
-    #     result = HTTParty.post('https://serene-citadel-5567.herokuapp.com/movie', options)
-    #   end
-    # rescue => e
-    #   logger.error e
-    #   halt 400, "Could not fully process SNS notification"
-    #   return
-    # end
-
-    # status 200
   end
 end
