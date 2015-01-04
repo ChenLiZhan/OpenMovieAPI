@@ -168,7 +168,7 @@ class MovieAppDynamo < Sinatra::Base
           body: param.to_json
         }
 
-        result = HTTParty.post('/api/v2/movie', options)
+        result = HTTParty.post('https://serene-citadel-5567.herokuapp.com/movie', options)
       end
     rescue => e
       logger.error e
