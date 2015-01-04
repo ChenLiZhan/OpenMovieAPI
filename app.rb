@@ -151,10 +151,9 @@ class MovieAppDynamo < Sinatra::Base
   end
 
   post '/notification' do
-      begin
+    begin
       sns_msg_type = request.env["HTTP_X_AMZ_SNS_MESSAGE_TYPE"]
       sns_note = JSON.parse request.body.read
-
       case sns_msg_type
       when 'SubscriptionConfirmation'
         sns_confirm_url = sns_note['SubscribeURL']
