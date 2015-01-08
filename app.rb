@@ -106,7 +106,17 @@ class MovieAppDynamo < Sinatra::Base
       halt 400
     end
     movie = new_movie(req)
-    redirect "/api/v2/moviechecked/#{movie.id}" if movie.save
+    if movie.save
+      sqs = AWS::SQS.new(region: ENV['AWS_REGION'])
+      queue = sqs.queues.named(req['sqs_key'])
+      message = {
+        movie_id: movie.id,
+      }
+
+      msg_sent = queue.send_message(message.to_json)
+      logger.info "sent message '#{msg_sent}'"
+      redirect "/api/v2/moviechecked/#{movie.id}"
+    end
   end
 
   get '/api/v2/moviechecked/:id' do
