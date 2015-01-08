@@ -3,7 +3,7 @@ require 'movie_crawler'
 require 'json'
 require 'yaml'
 require 'httparty'
-
+require 'aws-sdk'
 require_relative 'model/movie'
 require_relative 'model/theater'
 
