@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'movie_crawler'
 require 'json'
 require 'yaml'
+require 'aws-sdk'
 require_relative 'model/movie'
 require_relative 'model/theater'
 
