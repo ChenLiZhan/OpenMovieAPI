@@ -109,6 +109,7 @@ class MovieAppDynamo < Sinatra::Base
     end
     movie = new_movie(req)
     if movie.save
+      logger.info 'start to put the message into queue'
       sqs = AWS::SQS.new(region: ENV['AWS_REGION'])
       queue = sqs.queues.named(req['sqs_key'])
       message = {
